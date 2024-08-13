@@ -1,5 +1,5 @@
 function newItem() {
-	const list = document.createElement('li');
+	const newListItem = document.createElement('li');
 	const input = document.getElementById('myInput').value;
 
 	if (input === '') {
@@ -7,22 +7,38 @@ function newItem() {
 		return;
 	}
 
-	list.textContent = input;
+	newListItem.textContent = input;
 
-	const close = document.createElement('span');
-	close.setAttribute('class', 'close');
-	close.setAttribute('onclick', 'deleteItem()');
-	close.textContent = 'X';
-	list.appendChild(close);
+	const close = getClosingSpan(newListItem);
+
+	newListItem.appendChild(close);
+
+	newListItem.onclick = function () {
+		this.classList.toggle('complete');
+	};
 
 	const ul = document.getElementById('myList');
-	ul.appendChild(list);
+	ul.appendChild(newListItem);
 
 	document.getElementById('myInput').value = '';
 }
 
-function deleteItem() {
-	const listItem = document.getElementsByClassName('close');
+function getClosingSpan(newListItem) {
+	const close = document.createElement('span');
+	close.setAttribute('class', 'close');
+	close.onclick = function () {
+		deleteItem(newListItem);
+	};
+	close.textContent = 'X';
+
+	return close;
+}
+
+function deleteItem(newListItem) {
 	const ul = document.getElementById('myList');
-	ul.remove(listItem);
+	ul.removeChild(newListItem);
+}
+
+function completeItem(newListItem) {
+	newListItem.textContent;
 }
